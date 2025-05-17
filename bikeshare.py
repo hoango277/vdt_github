@@ -20,61 +20,37 @@ def get_filters():
     """
     print('Hello! Welcome to Viettel Digital Talent')
 
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    try:
+    def get_valid_input(prompt, valid_options):
         while True:
-            city = input('\nWould you like to see data for Chicago, New York, or Washington?\n')
-            if (city.title() != 'Chicago' and city.title() != 'New York' and city.title() != 'Washington'):
-                print('\nInvalid city. Please enter "Chicago" or "New York" or "Washington"!\n')
-            else:
-                break
-    except KeyboardInterrupt:
-        print('\nNo input taken\n')
-        exit()
+            try:
+                user_input = input(prompt).title()
+                if user_input in valid_options:
+                    return user_input
+                else:
+                    print(f"Invalid input. Please choose from {valid_options}.")
+            except KeyboardInterrupt:
+                print("\nNo input taken. Exiting program.")
+                exit()
 
-    print('\nLook like you want to hear about {}!'.format(city.title()))
+    city = get_valid_input(
+        "\nWould you like to see data for Chicago, New York, or Washington?\n",
+        cities
+    )
+    print(f"\nLooks like you want to hear about {city}!")
 
-    # get user input for month (all, january, february, ... , june)
-    try:
-        check_loop = True
-        messsage = ''
-        while check_loop:
-            month = input('\nWhich month you like to filter the data? January, February, March, April, May, or June?\n')
-            for i in months:
-                if month.title() == i:
-                    check_loop = False
-                    messsage = 'Valid month'
-                    break
-            if messsage == 'Valid month':
-                continue
-            messsage = '\nInvalid month. Please enter day in ("January", "February", "March", "April", ' \
-                       '"May", ' \
-                       '"June")!\n '
-            print(messsage)
-    except KeyboardInterrupt:
-        print('\nNo input taken\n')
-        exit()
+    month = get_valid_input(
+        "\nWhich month would you like to filter by? January, February, March, April, May, June, or All?\n",
+        months
+    )
 
-    # get user input for day of week (all, monday, tuesday, ... sunday)
-    try:
-        check_loop = True
-        messsage = ''
-        while check_loop:
-            day = input('\nWhich day you like to filter the data? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday\n')
-            for i in days:
-                if day.title() == i:
-                    check_loop = False
-                    messsage = 'Valid day'
-                    break
-            if messsage != 'Valid day':
-                messsage = '\nInvalid day. Please enter day in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")!\n'
-                print(messsage)
-    except KeyboardInterrupt:
-        print('\nNo input taken\n')
-        exit()
+    day = get_valid_input(
+        "\nWhich day would you like to filter by? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, or All?\n",
+        days
+    )
 
     print('-'*40)
     return city, month, day
+
 
 
 def load_data(city, month, day):
